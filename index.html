@@ -1261,14 +1261,44 @@
                     btnSubmit.textContent = 'Sending...';
                     btnSubmit.disabled = true;
 
-                    // Simulate API delay
-                    setTimeout(() => {
-                        form.reset();
-                        formStatus.textContent = 'Quote request sent successfully! Our engineers will contact you shortly.';
+                    // Send to Web3Forms API
+                    fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            access_key: "dd052bfd-6909-4fe9-aa5b-5a6ace9099ca", // Web3Forms access key
+                            subject: "New Quote Request from " + name.value,
+                            from_name: "Sadisha Website Form",
+                            name: name.value,
+                            email: email.value,
+                            service: service.value,
+                            message: msg.value
+                        })
+                    })
+                    .then(async (response) => {
+                        if (response.status == 200) {
+                            form.reset();
+                            formStatus.textContent = 'Quote request sent successfully! Our engineers will contact you shortly.';
+                            formStatus.style.color = 'var(--color-success)';
+                            formStatus.style.display = 'block';
+                        } else {
+                            formStatus.textContent = 'Something went wrong! Please try again.';
+                            formStatus.style.color = 'var(--color-error)';
+                            formStatus.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        formStatus.textContent = 'Something went wrong! Check your internet connection.';
+                        formStatus.style.color = 'var(--color-error)';
                         formStatus.style.display = 'block';
+                    })
+                    .finally(() => {
                         btnSubmit.textContent = originalText;
                         btnSubmit.disabled = false;
-                    }, 1200);
+                    });
                 }
             });
         });
