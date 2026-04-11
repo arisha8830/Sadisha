@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADISHA - Engineers & Architectural Designers</title>
+    <meta name="description" content="Redefining Sri Lanka's skyline through digital precision and structural mastery. Expertise in BIM and MEP.">
+    
+    <!-- Google Fonts: Montserrat matches the logo's geometric architectural font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & THEMING (Matched to Logo)
+           ========================================================================== */
+        :root {
+            /* Extracted from uploaded logo */
+            --color-brand-dark: #3a0d10;   /* Deep red from logo background */
+            --color-brand-main: #611116;   /* Primary dark red */
+            --color-brand-accent: #d2766f; /* Salmon/Coral from the logo text */
+            
+            /* Neutrals */
+            --color-gray-50: #fafafa;
+            --color-gray-100: #f4f4f5;
+            --color-gray-200: #e4e4e7;
+            --color-gray-300: #d4d4d8;
+            --color-gray-500: #71717a;
+            --color-gray-800: #27272a;
+            --color-gray-900: #18181b;
+            --color-white: #ffffff;
+            
+            /* State colors */
+            --color-error: #ef4444;
+            --color-success: #10b981;
+
+            /* Typography */
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Spacing & Layout */
+            --container-padding: 2rem;
+            --section-padding: 6rem;
+            
+            /* UI Elements - Architectural (Sharp corners, clean lines) */
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --radius-md: 2px;
+            --radius-lg: 4px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        /* ==========================================================================
+           RESET & GLOBAL
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-gray-800);
+            background-color: var(--color-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-4 { gap: 1rem; }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           BUTTONS
+           ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-main);
+            color: var(--color-white);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-white);
+            border-color: var(--color-brand-accent);
+        }
+        .btn-outline:hover {
+            background-color: var(--color-brand-accent);
+            color: var(--color-white);
+        }
+
+        /* ==========================================================================
+           HEADER & NAVIGATION
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background-color: transparent;
+            transition: all var(--transition);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        header.header-scrolled {
+            background-color: var(--color-white);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            border-bottom-color: transparent;
+        }
+
+        header.header-scrolled .desktop-nav a { color: var(--color-gray-800); }
+        header.header-scrolled .desktop-nav a:hover { color: var(--color-brand-main); }
+        header.header-scrolled .mobile-menu-btn { color: var(--color-gray-900); }
+        header.header-scrolled .support-text-label { color: var(--color-gray-500); }
+        header.header-scrolled .support-text-number { color: var(--color-brand-main); }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 2px;
+            transition: transform var(--transition);
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .desktop-nav {
+            display: none;
+            gap: 2.5rem;
+        }
+        .desktop-nav a {
+            font-family: var(--font-heading);
+            font-weight: 500;
+            color: var(--color-white);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-brand-accent);
+            transition: width var(--transition);
+        }
+        .desktop-nav a:hover::after { width: 100%; }
+
+        .header-cta {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .support-text {
+            text-align: right;
+            border-right: 1px solid rgba(113, 113, 122, 0.3);
+            padding-right: 1.5rem;
+        }
+        .support-text-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+        .support-text-number {
+            color: var(--color-white);
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: var(--font-heading);
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--color-white);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+            transition: fill var(--transition);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-white);
+            border-top: 1px solid var(--color-gray-100);
+            box-shadow: var(--shadow-lg);
+            flex-direction: column;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            padding: 1.25rem var(--container-padding);
+            border-bottom: 1px solid var(--color-gray-100);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--color-gray-900);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+        .mobile-menu a:hover {
+            color: var(--color-brand-main);
+            background-color: var(--color-gray-50);
+            padding-left: calc(var(--container-padding) + 0.5rem);
+        }
+        .mobile-menu-cta { padding: 2rem var(--container-padding); }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background-color: var(--color-brand-dark);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(58, 13, 16, 0.8) 0%, rgba(24, 24, 27, 0.95) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin-top: 5rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 1rem;
+            background-color: rgba(210, 118, 111, 0.1);
+            border: 1px solid rgba(210, 118, 111, 0.3);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+        }
+        .hero-badge span {
+            color: var(--color-brand-accent);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            color: var(--color-white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .hero-title span {
+            color: var(--color-brand-accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-gray-300);
+            margin-bottom: 3rem;
+            max-width: 650px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        /* ==========================================================================
+           ABOUT SECTION
+           ========================================================================== */
+        .about-section {
+            padding: var(--section-padding) 0;
+            background-color: var(--color-white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            background-color: var(--color-gray-100);
+        }
+        
+        .about-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4/3;
+        }
+
+        .experience-card {
+            position: absolute;
+            top: -2rem;
+            right: -2rem;
+            background-color: var(--color-white);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--color-brand-main);
+            z-index: 20;
+        }
+        .experience-card h4 {
+            font-size: 3rem;
+            color: var(--color-gray-900);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .experience-card p {
+            color: var(--color-brand-main);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            font-family: var(--font-heading);
+        }
+
+        .about-content-subtitle {
+            color: var(--color-brand-accent);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-family: var(--font-heading);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .about-content-title {
+            font-size: 2.5rem;
+            color: var(--color-gray-900);
+            margin-bottom: 1.5rem;
+        }
+        .about-content-title span {
+            color: var(--color-brand-main);
+        }
+        .about-content p {
+            color: var(--color-gray-500);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .feature-card {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .feature-icon {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-md);
+            background-color: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--color-brand-main);
+        }
+        
+        .feature-text h4 {
+            font-weight: 700;
+            color: var(--color-gray-900);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        .feature-text p {
+            font-size: 0.85rem;
+            color: var(--color-gray-500);
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           SERVICES SECTION
+           ========================================================================== */
+        .services-section {
+            padding: var(--section-padding) 0;
+            background-color: var(--color-gray-50);
+            border-top: 1px solid var(--color-gray-200);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem auto;
+        }
+        .section-header-title {
+            font-size: 2.5rem;
+            color: var(--color-gray-900);
+            margin-bottom: 1.5rem;
+        }
+        .section-header-divider {
+            width: 4rem;
+            height: 4px;
+            background-color: var(--color-brand-main);
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-radius: var(--radius-md);
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background-color: var(--color-brand-main);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition);
+            z-index: 10;
+        }
+        .service-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+            transform: translateY(-5px);
+        }
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-image {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--color-gray-100);
+        }
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-card:hover .service-image img {
+            transform: scale(1.08);
+        }
+
+        .service-content {
+            padding: 2.5rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-content h3 {
+            font-size: 1.25rem;
+            color: var(--color-gray-900);
+            margin-bottom: 1rem;
+        }
+        .service-content p {
+            color: var(--color-gray-500);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           CONTACT SECTION
+           ========================================================================== */
+        .contact-section {
+            padding: var(--section-padding) 0;
+            background-color: var(--color-white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5rem;
+        }
+
+        .contact-info h3 {
+            font-size: 2.5rem;
+            color: var(--color-gray-900);
+            margin-bottom: 1.5rem;
+        }
+        .contact-info p {
+            color: var(--color-gray-500);
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+        }
+        
+        .contact-image-wrapper {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            background-color: var(--color-gray-100);
+        }
+        
+        .contact-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .contact-form-card {
+            background-color: var(--color-gray-50);
+            padding: 3rem;
+            border: 1px solid var(--color-gray-200);
+        }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-gray-900);
+            margin-bottom: 0.75rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--color-gray-300);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all var(--transition);
+            background-color: var(--color-white);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-brand-main);
+            box-shadow: 0 0 0 3px rgba(97, 17, 22, 0.1);
+        }
+        textarea.form-input { min-height: 150px; resize: vertical; }
+        
+        .form-error {
+            color: var(--color-error);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .form-success {
+            padding: 1.5rem;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-weight: 500;
+            text-align: center;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        .btn-submit { width: 100%; padding: 1.25rem; }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--color-gray-900);
+            color: var(--color-white);
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+            border-top: 4px solid var(--color-brand-main);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .footer-brand p {
+            color: var(--color-gray-400);
+            font-size: 0.9rem;
+            margin: 2rem 0;
+            max-width: 300px;
+        }
+        .social-links { display: flex; gap: 1rem; }
+        .social-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+        .social-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--color-gray-400);
+            transition: fill var(--transition);
+        }
+        .social-icon:hover {
+            background-color: var(--color-brand-main);
+            border-color: var(--color-brand-main);
+        }
+        .social-icon:hover svg { fill: var(--color-white); }
+
+        .footer-col-title {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-white);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .footer-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .footer-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .footer-item svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--color-brand-accent);
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+        .footer-item-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--color-gray-500);
+            margin-bottom: 0.25rem;
+            font-family: var(--font-heading);
+            letter-spacing: 0.05em;
+        }
+        .footer-item-text {
+            font-size: 0.9rem;
+            color: var(--color-gray-300);
+        }
+        .footer-item-text a:hover {
+            color: var(--color-white);
+        }
+        
+        .expertise-list { display: flex; flex-direction: column; gap: 1rem; }
+        .expertise-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--color-gray-300);
+        }
+        .expertise-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--color-brand-accent);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--color-gray-500);
+        }
+        .footer-bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .footer-bottom-links a:hover { color: var(--color-white); }
+        .footer-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--color-brand-main);
+        }
+
+        /* ==========================================================================
+           MEDIA QUERIES (Mobile First - 768px, 1024px)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .hero-title { font-size: 4.5rem; }
+            .hero-subtitle { font-size: 1.25rem; }
+            
+            .feature-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-bottom { 
+                flex-direction: row; 
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-nav { display: flex; }
+            .header-cta { display: flex; }
+            .mobile-menu-btn { display: none; }
+            
+            .hero-title { font-size: 5.5rem; }
+            
+            .about-grid { grid-template-columns: 1fr 1fr; }
+            .contact-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid { grid-template-columns: repeat(3, 1fr); }
+            
+            .footer-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER & NAVIGATION -->
+    <header id="header">
+        <div class="container nav-wrapper">
+            <!-- LOGO: Updated with a stable, premium architectural placeholder + Text -->
+            <a href="#home" class="brand-logo">
+                <img src="Sadisha Logo.jpg" alt="SADISHA Logo" class="logo-img" style="height: 50px; width: auto; border-radius: 4px;">
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="desktop-nav">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <!-- Desktop CTA -->
+            <div class="header-cta">
+                <div class="support-text">
+                    <div class="support-text-label">Expert Support</div>
+                    <div class="support-text-number">+94 71 019 6778</div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Get a Quote</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Menu">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <nav id="mobile-menu" class="mobile-menu">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+            <div class="mobile-menu-cta text-center">
+                <p style="color: var(--color-brand-main); font-family: var(--font-heading); font-weight: 700; margin-bottom: 1rem;">+94 71 019 6778 / +94 77 389 9483</p>
+                <a href="#contact" class="btn btn-primary" style="width: 100%;">GET A QUOTE</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Premium Architectural Exterior" />
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="container hero-content fade-in-section">
+                <div class="hero-badge">
+                    <span>Engineering & Architectural Designers</span>
+                </div>
+                <h1 class="hero-title" style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.2;">
+                    Sadisha Engineers & Architectural Designers<br>
+                    <span style="font-size: clamp(1.2rem, 2.5vw, 2rem); font-weight: 400; color: var(--color-white); display: block; margin-top: 1rem;">is a premier multi-disciplinary firm dedicated to transforming conceptual visions into structural realities.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    At SADISHA, we redefine Sri Lanka's skyline by blending creative passion with rigorous engineering logic. Expertise in advanced BIM and MEP design.
+                </p>
+                <div class="hero-actions">
+                    <a href="#services" class="btn btn-primary">Explore Services</a>
+                    <a href="#contact" class="btn btn-outline">Consult Our Team</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="about-section">
+            <div class="container about-grid">
+                
+                <!-- Visuals -->
+                <div class="fade-in-section" style="position: relative;">
+                    <div class="about-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Architectural Design and BIM Workspace">
+                    </div>
+                    <div class="experience-card">
+                        <h4>10+</h4>
+                        <p>Years of<br>Excellence</p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="about-content fade-in-section">
+                    <span class="about-content-subtitle">Digital Transformation</span>
+                    <h2 class="about-content-title">Pioneering <span>Architectural, Structural</span> and <span>MEP</span></h2>
+                    <p>
+                        At <strong>SADISHA</strong>, we pride ourselves on staying at the forefront of construction technology. By integrating advanced Building Information Modeling (BIM), we ensure a seamless flow from concept to completion.
+                    </p>
+                    <p>
+                        Our design philosophy represents the perfect harmony of creative architectural vision and uncompromising technical precision. From high-rise structural plans to complex MEP layouts, we deliver with unmatched accuracy.
+                    </p>
+
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 11V3h-8v8h8zM19 9h-4V5h4v4zm-8 12v-8H3v8h8zm-6-2v-4h4v4H5zm16-4v8h-8v-8h8zm-2 6v-4h-4v4h4zM11 3H3v8h8V3zm-2 6H5V5h4v4z"/></svg>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Intelligent BIM</h4>
+                                <p>Complete virtual construction and clash detection before breaking ground.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24"><path d="M11 21h-1l1-7H7.5c-.58 0-.57-.32-.38-.66.19-.34.05-.08.16-.28L11.5 2h1l-1 7h3.5c.49 0 .56.33.47.51l-.07.15C12.96 14.55 11 21 11 21z"/></svg>
+                            </div>
+                            <div class="feature-text">
+                                <h4>MEP Optimization</h4>
+                                <p>Highly efficient mechanical, electrical, and plumbing system engineering.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="services" class="services-section">
+            <div class="container">
+                <div class="section-header fade-in-section">
+                    <span class="about-content-subtitle" style="margin-bottom: 1rem;">Core Capabilities</span>
+                    <h2 class="section-header-title">Engineering & Design</h2>
+                    <div class="section-header-divider"></div>
+                </div>
+
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Architectural Designing">
+                        </div>
+                        <div class="service-content">
+                            <h3>Architectural Designing</h3>
+                            <p>Crafting unique spatial experiences that perfectly balance striking aesthetics with human-centric functionality.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Structural Designing">
+                        </div>
+                        <div class="service-content">
+                            <h3>Structural Designing</h3>
+                            <p>Advanced modeling to ensure high-grade earthquake resistance and heavy-load stability for complex structures.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="MEP Designing">
+                        </div>
+                        <div class="service-content">
+                            <h3>MEP Designing</h3>
+                            <p>Creating specialized Mechanical, Electrical, and Plumbing layouts engineered for sustainability and maximum efficiency.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project Management">
+                        </div>
+                        <div class="service-content">
+                            <h3>Project Management</h3>
+                            <p>Providing comprehensive site supervision to ensure compliance with strict safety standards and rigorous quality control.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Consulting Services">
+                        </div>
+                        <div class="service-content">
+                            <h3>Consulting Services</h3>
+                            <p>Expert strategic guidance and technical assessments from our senior engineering team to optimize your development investments.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="service-card fade-in-section">
+                        <div class="service-image">
+                            <img src="bim_img.png" alt="BIM Implementation">
+                        </div>
+                        <div class="service-content">
+                            <h3>BIM Implementation</h3>
+                            <p>Specialized in 3D, 4D, and 5D BIM for clash detection, exact quantity surveying, and complete life-cycle management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="contact-section">
+            <div class="container contact-grid">
+                
+                <div class="contact-info fade-in-section">
+                    <span class="about-content-subtitle">Initiate A Project</span>
+                    <h3>Ready to build the future?</h3>
+                    <p>Request a comprehensive strategic assessment or project quote from our senior engineering team.</p>
+                    
+                    <div class="contact-image-wrapper">
+                        <!-- Updated stable Unsplash image for Contact Plans -->
+                        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Architectural Model and Plans">
+                    </div>
+                </div>
+
+                <div class="contact-form-card fade-in-section">
+                    <form id="lead-form" novalidate>
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" id="fullName" class="form-input" placeholder="e.g. John Doe" required>
+                            <div class="form-error" id="err-name">Please enter your full name.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                            <div class="form-error" id="err-email">Please enter a valid email address.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceType" class="form-label">Service Required</label>
+                            <select id="serviceType" class="form-input" required>
+                                <option value="" disabled selected>Select a specific service...</option>
+                                <option value="architectural">Architectural Designing</option>
+                                <option value="structural">Structural Designing</option>
+                                <option value="mep">MEP Designing</option>
+                                <option value="project_management">Project Management</option>
+                                <option value="consulting">Consulting Services</option>
+                                <option value="bim">BIM Implementation</option>
+                            </select>
+                            <div class="form-error" id="err-service">Please select a service type.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Project Details</label>
+                            <textarea id="message" class="form-input" placeholder="Briefly describe the scope of your project..." required></textarea>
+                            <div class="form-error" id="err-message">Please provide some initial project details.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">Request Official Quote</button>
+                        
+                        <div id="form-status" class="form-success"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <!-- Brand Info -->
+                <div class="footer-brand">
+                    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; color: var(--color-white); margin-bottom: 1rem; letter-spacing: -0.02em;">SADISHA</div>
+                    <p>Blending the heat of design passion with the coolness of engineering logic. Over a decade of trusted excellence in Sri Lanka.</p>
+                    <div class="social-links">
+                        <a href="https://web.facebook.com/profile.php?id=61572127644343" target="_blank" aria-label="Facebook" class="social-icon">
+                            <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                        </a>
+                        <a href="#" aria-label="WhatsApp" class="social-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.46 14.1c-.25.7-1.44 1.34-2 1.41-.5.06-1.15.17-3.32-.73-2.61-1.08-4.32-3.8-4.45-3.98-.13-.18-1.07-1.42-1.07-2.71s.68-1.92.92-2.19c.24-.26.52-.33.7-.33.17 0 .35 0 .5.01.17.01.38-.06.58.42.22.52.74 1.81.8 1.95.07.13.11.29.02.48-.09.18-.13.3-.26.46-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.15.26.68 1.13 1.47 1.83.99.88 1.85 1.15 2.1 1.28.26.13.4.11.55-.06.15-.18.66-.77.83-1.03.18-.27.35-.23.59-.14.24.09 1.54.73 1.81.86.26.13.44.2.5.31.06.11.06.66-.19 1.36z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Locations -->
+                <div>
+                    <h4 class="footer-col-title">Locations</h4>
+                    <div class="footer-list">
+                        <div class="footer-item">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <div>
+                                <div class="footer-item-label">Head Office</div>
+                                <div class="footer-item-text">Kandanegedara Wadumunnegedara</div>
+                            </div>
+                        </div>
+                        <div class="footer-item">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <div>
+                                <div class="footer-item-label">Branch Office</div>
+                                <div class="footer-item-text">Lotus Building (Nawala), Kotte</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="footer-col-title">Contact</h4>
+                    <div class="footer-list">
+                        <div class="footer-item">
+                            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            <div class="flex flex-col">
+                                <span class="footer-item-text"><a href="tel:+94710196778">+94 71 019 6778</a> / <a href="tel:+94773899483">+94 77 389 9483</a></span>
+                            </div>
+                        </div>
+                        <div class="footer-item">
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <a href="mailto:arishapriyashan@gmail.com" class="footer-item-text">arishapriyashan@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expertise -->
+                <div>
+                    <h4 class="footer-col-title">Expertise</h4>
+                    <div class="expertise-list">
+                        <div class="expertise-item"><div class="expertise-dot"></div> Architectural Designing</div>
+                        <div class="expertise-item"><div class="expertise-dot"></div> Structural Designing</div>
+                        <div class="expertise-item"><div class="expertise-dot"></div> MEP Designing</div>
+                        <div class="expertise-item"><div class="expertise-dot"></div> Project Management</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> SADISHA ENGINEERS & ARCHITECTURAL DESIGNERS</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Digital Innovation</a>
+                    <div class="footer-dot"></div>
+                    <a href="#">Precision Engineering</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         VANILLA JAVASCRIPT
+         ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Dynamic Year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 2. Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const iconSvg = btn.querySelector('svg path');
+
+            const menuIconPath = "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z";
+            const closeIconPath = "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z";
+
+            btn.addEventListener('click', () => {
+                const isActive = menu.classList.toggle('active');
+                iconSvg.setAttribute('d', isActive ? closeIconPath : menuIconPath);
+            });
+
+            // Close menu on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    iconSvg.setAttribute('d', menuIconPath);
+                });
+            });
+
+            // 3. Sticky Header
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // 4. Scroll Reveal Animation
+            const fadeElements = document.querySelectorAll('.fade-in-section');
+            const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            fadeElements.forEach(el => appearOnScroll.observe(el));
+
+            // 5. Form Validation
+            const form = document.getElementById('lead-form');
+            const btnSubmit = document.getElementById('submit-btn');
+            const formStatus = document.getElementById('form-status');
+
+            const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).toLowerCase());
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let isValid = true;
+
+                // Elements
+                const name = document.getElementById('fullName');
+                const email = document.getElementById('email');
+                const service = document.getElementById('serviceType');
+                const msg = document.getElementById('message');
+
+                // Error Wrappers
+                const errName = document.getElementById('err-name');
+                const errEmail = document.getElementById('err-email');
+                const errService = document.getElementById('err-service');
+                const errMsg = document.getElementById('err-message');
+
+                // Reset
+                [errName, errEmail, errService, errMsg].forEach(el => el.style.display = 'none');
+                formStatus.style.display = 'none';
+
+                // Checks
+                if (!name.value.trim()) { errName.style.display = 'block'; isValid = false; }
+                if (!email.value.trim() || !validateEmail(email.value)) { errEmail.style.display = 'block'; isValid = false; }
+                if (!service.value) { errService.style.display = 'block'; isValid = false; }
+                if (!msg.value.trim()) { errMsg.style.display = 'block'; isValid = false; }
+
+                if (isValid) {
+                    const originalText = btnSubmit.textContent;
+                    btnSubmit.textContent = 'Sending...';
+                    btnSubmit.disabled = true;
+
+                    // Simulate API delay
+                    setTimeout(() => {
+                        form.reset();
+                        formStatus.textContent = 'Quote request sent successfully! Our engineers will contact you shortly.';
+                        formStatus.style.display = 'block';
+                        btnSubmit.textContent = originalText;
+                        btnSubmit.disabled = false;
+                    }, 1200);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
